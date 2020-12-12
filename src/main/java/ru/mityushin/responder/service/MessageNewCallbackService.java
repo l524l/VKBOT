@@ -58,11 +58,8 @@ public class MessageNewCallbackService implements CallbackService {
                 .message("Вы сказали: ".concat(saved.getText()))
                 .groupId(saved.getGroupId())
                 .build();
-
-
-
-        messageSenderService.send(Commander.execute(messageNewCallback));
         messageSenderService.send(dto);
+        messageSenderService.send(Commander.execute(messageNewCallback));
     }
 
     private static MessageNewCallback parseMessageNewCallback(CallbackDto callbackDto) {
