@@ -60,6 +60,7 @@ public class MessageNewCallbackService implements CallbackService {
                 .build();
         //messageSenderService.send(dto);
         messageSenderService.send(Commander.execute(messageNewCallback));
+        System.out.println("ОТПРАВЛЕНО");
     }
 
     private static MessageNewCallback parseMessageNewCallback(CallbackDto callbackDto) {
