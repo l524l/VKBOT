@@ -2,6 +2,7 @@ package ru.mityushin.responder.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.mityushin.responder.commandsmodule.Commander;
 import ru.mityushin.responder.config.VkApiConfigurationProperties;
 import ru.mityushin.responder.dto.CallbackDto;
 import ru.mityushin.responder.dto.MessagesSendDto;
@@ -52,14 +53,7 @@ public class MessageNewCallbackService implements CallbackService {
 
     private void handleMessageNew(MessageNewCallback messageNewCallback) {
         MessageNewCallback saved = messageNewCallbackRepository.save(messageNewCallback);
-        MessagesSendDto dto = MessagesSendDto.builder()
-                .peerId(saved.getPeerId())
-                .message("Вы сказали: ".concat(saved.getText()))
-                .groupId(saved.getGroupId())
-                .build();
-
-
-
+        MessagesSendDto dto = Commander.execute(messageNewCallback);
         messageSenderService.send(dto);
     }
 

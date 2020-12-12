@@ -1,10 +1,8 @@
 package ru.mityushin.responder.commandsmodule;
 
 import ru.mityushin.responder.checkers.CheckersBoard;
-import ru.mityushin.responder.commandsmodule.Command;
 import ru.mityushin.responder.dto.MessagesSendDto;
 import ru.mityushin.responder.entity.MessageNewCallback;
-import ru.mityushin.responder.service.VkMessageSenderService;
 
 public class Move extends Command {
     public Move(String name) {
@@ -12,7 +10,7 @@ public class Move extends Command {
     }
 
     @Override
-    public void exec(MessageNewCallback message) {
+    public MessagesSendDto exec(MessageNewCallback message) {
         String param = getParam();
         CheckersBoard checkersBoard = CheckersBoard.getCheckersBoard();
         checkersBoard.moveСhecker(param);
@@ -27,12 +25,12 @@ public class Move extends Command {
             s = s.concat("\n");
         }
         System.out.println(s);
-        VkMessageSenderService sender = new VkMessageSenderService();
+
         MessagesSendDto dto = MessagesSendDto.builder()
                 .peerId(message.getPeerId())
                 .message("Ваше поле:\n" + s)
                 .groupId(message.getGroupId())
                 .build();
-        sender.send(dto);
+        return dto;
     }
 }

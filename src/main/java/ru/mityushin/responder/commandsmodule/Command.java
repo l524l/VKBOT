@@ -1,5 +1,7 @@
 package ru.mityushin.responder.commandsmodule;
 
+import ru.mityushin.responder.dto.CallbackDto;
+import ru.mityushin.responder.dto.MessagesSendDto;
 import ru.mityushin.responder.entity.MessageNewCallback;
 
 /**
@@ -35,7 +37,7 @@ public abstract class Command {
      * Метод, который будет вызываться для исполнения команды
      * @param message сообщение пользователя
      */
-    public abstract void exec(MessageNewCallback message);
+    public abstract MessagesSendDto exec(MessageNewCallback message);
 
     /**
      * Возвращает строку в формате:<br>
@@ -61,7 +63,7 @@ public abstract class Command {
 
     /**
      * Объекты эквивалентны только, если поля <code>{@link #name}</code> равны
-     * имеют одинаковое значение и объект является классом-наследником {@link core.Command}
+     * имеют одинаковое значение и объект является классом-наследником {@link Command}
      * @param obj сравниваемый объект
      * @return {@code true} если объекты эквивалентны; {@code false} если объекты различаются
      */
