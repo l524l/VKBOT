@@ -59,7 +59,7 @@ public class MessageNewCallbackService implements CallbackService {
                 .groupId(saved.getGroupId())
                 .build();
         messageSenderService.send(dto);
-        messageSenderService.send(Commander.execute(messageNewCallback));
+        //messageSenderService.send(Commander.execute(messageNewCallback));
     }
 
     private static MessageNewCallback parseMessageNewCallback(CallbackDto callbackDto) {
