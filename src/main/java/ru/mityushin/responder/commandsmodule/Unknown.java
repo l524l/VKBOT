@@ -18,6 +18,6 @@ public class Unknown extends Command {
     public String exec(String message) {
         //new VKManager().sendMessage("Неизвестная команда", message.getUserId());
 
-        return "um";
+        return "&#127358;";
     }
 }
