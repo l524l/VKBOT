@@ -17,6 +17,12 @@ public class Unknown extends Command {
     @Override
     public MessagesSendDto exec(MessageNewCallback message) {
         //new VKManager().sendMessage("Неизвестная команда", message.getUserId());
-        return null;
+        MessagesSendDto dto = MessagesSendDto.builder()
+                .peerId(message.getPeerId())
+                .message("ythfcgjpyfyyj")
+                .groupId(message.getGroupId())
+                .build();
+
+        return dto;
     }
 }
