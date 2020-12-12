@@ -45,7 +45,9 @@ public class MessageNewCallbackService implements CallbackService {
 
     private void validateSecret(CallbackDto callbackDto) {
         String s = vkApiConfigurationProperties.getSecret();
-
+        if (!vkApiConfigurationProperties.getSecret().equals(callbackDto.getSecret())) {
+            throw new InvalidParameterException("Invalid secret");
+        }
     }
 
     private void handleMessageNew(MessageNewCallback messageNewCallback) {
