@@ -10,7 +10,6 @@ public class CommandManager {
 
     static {
         commands.add(new Unknown("unknown"));
-        commands.add(new Weather("weather"));
         commands.add(new Play(".play"));
         commands.add(new Move(".move"));
         commands.add(new Remove(".remove"));

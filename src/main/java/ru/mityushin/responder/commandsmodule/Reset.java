@@ -1,4 +1,4 @@
-package ru.mityushin.responder.commandsmodule.commands;
+package ru.mityushin.responder.commandsmodule;
 
 import ru.mityushin.responder.checkers.CheckersBoard;
 import ru.mityushin.responder.commandsmodule.Command;
@@ -6,18 +6,16 @@ import ru.mityushin.responder.dto.MessagesSendDto;
 import ru.mityushin.responder.entity.MessageNewCallback;
 import ru.mityushin.responder.service.VkMessageSenderService;
 
-/**
- * @author Arthur Kupriyanov
- */
-public class Play extends Command {
-
-    public Play(String name) {
+public class Reset extends Command {
+    public Reset(String name) {
         super(name);
     }
 
     @Override
     public void exec(MessageNewCallback message) {
         CheckersBoard checkersBoard = CheckersBoard.getCheckersBoard();
+        checkersBoard.resetBoard();
+
         String s = "";
         String[][] arr = checkersBoard.getBoard();
 

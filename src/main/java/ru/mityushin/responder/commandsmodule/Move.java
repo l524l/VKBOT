@@ -1,4 +1,4 @@
-package ru.mityushin.responder.commandsmodule.commands;
+package ru.mityushin.responder.commandsmodule;
 
 import ru.mityushin.responder.checkers.CheckersBoard;
 import ru.mityushin.responder.commandsmodule.Command;
