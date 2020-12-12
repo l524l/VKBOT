@@ -53,7 +53,15 @@ public class MessageNewCallbackService implements CallbackService {
 
     private void handleMessageNew(MessageNewCallback messageNewCallback) {
         MessageNewCallback saved = messageNewCallbackRepository.save(messageNewCallback);
-        MessagesSendDto dto = Commander.execute(messageNewCallback);
+        MessagesSendDto dto = MessagesSendDto.builder()
+                .peerId(saved.getPeerId())
+                .message("Вы сказали: ".concat(saved.getText()))
+                .groupId(saved.getGroupId())
+                .build();
+
+
+
+        messageSenderService.send(Commander.execute(messageNewCallback));
         messageSenderService.send(dto);
     }
 
