@@ -14,7 +14,7 @@ public class Play extends Command {
     }
 
     @Override
-    public MessagesSendDto exec(MessageNewCallback message) {
+    public String exec(String message) {
         CheckersBoard checkersBoard = CheckersBoard.getCheckersBoard();
         String s = "";
         String[][] arr = checkersBoard.getBoard();
@@ -26,12 +26,6 @@ public class Play extends Command {
             s = s.concat("\n");
         }
         System.out.println(s);
-
-        MessagesSendDto dto = MessagesSendDto.builder()
-                .peerId(message.getPeerId())
-                .message("Ваше поле:\n" + s)
-                .groupId(message.getGroupId())
-                .build();
-        return dto;
+        return s;
     }
 }

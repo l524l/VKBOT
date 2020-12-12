@@ -10,7 +10,7 @@ public class Move extends Command {
     }
 
     @Override
-    public MessagesSendDto exec(MessageNewCallback message) {
+    public String exec(String message) {
         String param = getParam();
         CheckersBoard checkersBoard = CheckersBoard.getCheckersBoard();
         checkersBoard.moveСhecker(param);
@@ -26,11 +26,6 @@ public class Move extends Command {
         }
         System.out.println(s);
 
-        MessagesSendDto dto = MessagesSendDto.builder()
-                .peerId(message.getPeerId())
-                .message("Ваше поле:\n" + s)
-                .groupId(message.getGroupId())
-                .build();
-        return dto;
+        return s;
     }
 }

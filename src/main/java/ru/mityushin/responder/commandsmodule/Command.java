@@ -37,7 +37,7 @@ public abstract class Command {
      * Метод, который будет вызываться для исполнения команды
      * @param message сообщение пользователя
      */
-    public abstract MessagesSendDto exec(MessageNewCallback message);
+    public abstract String exec(String message);
 
     /**
      * Возвращает строку в формате:<br>

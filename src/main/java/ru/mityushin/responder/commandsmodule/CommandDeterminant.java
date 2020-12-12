@@ -13,8 +13,8 @@ import java.util.Collection;
 public class CommandDeterminant {
 
 
-    public static Command getCommand(Collection<Command> commands, MessageNewCallback message) {
-        String body = message.getText();
+    public static Command getCommand(Collection<Command> commands, String message) {
+        String body = message;
 
         for (Command command : commands
         ) {

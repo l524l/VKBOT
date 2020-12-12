@@ -9,7 +9,7 @@ public class Commander {
      * Обработка сообщений, получаемых через сервис Вконтакте. Имеет ряд дополнительной информации.
      * @param message сообщение (запрос) пользователя
      */
-    public static MessagesSendDto execute(MessageNewCallback message){
+    public static String execute(String message){
         return CommandDeterminant.getCommand(CommandManager.getCommands(), message).exec(message);
     }
 

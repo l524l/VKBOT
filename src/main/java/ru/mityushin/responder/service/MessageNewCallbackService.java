@@ -53,13 +53,14 @@ public class MessageNewCallbackService implements CallbackService {
 
     private void handleMessageNew(MessageNewCallback messageNewCallback) {
         MessageNewCallback saved = messageNewCallbackRepository.save(messageNewCallback);
+        String s = Commander.execute(saved.getText());
         MessagesSendDto dto = MessagesSendDto.builder()
                 .peerId(saved.getPeerId())
                 .message("Вы сказали: ".concat(saved.getText()))
                 .groupId(saved.getGroupId())
                 .build();
         //messageSenderService.send(dto);
-        messageSenderService.send(Commander.execute(messageNewCallback));
+        messageSenderService.send(dto);
         System.out.println("ОТПРАВЛЕНО");
     }
 
