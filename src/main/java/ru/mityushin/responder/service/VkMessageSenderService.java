@@ -40,7 +40,7 @@ public class VkMessageSenderService {
         Message messages = new Message();
         TransportClient transportClient = HttpTransportClient.getInstance();
         vk = vk = new VkApiClient(transportClient);
-        vk.messages().send(vkGroupActor.getGroupActor()).message(message.getBody()).execute();
+        vk.messages().send(vkGroupActor.getGroupActor()).message(message.getText()).execute();
 
        /* List<MessagesSendDto> messages = parseIfRequired(message);
         messages.forEach(this::sendInternal);*/
