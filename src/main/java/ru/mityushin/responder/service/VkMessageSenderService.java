@@ -1,9 +1,17 @@
 package ru.mityushin.responder.service;
 
+import com.vk.api.sdk.callback.CallbackApi;
+import com.vk.api.sdk.client.TransportClient;
+import com.vk.api.sdk.client.VkApiClient;
+import com.vk.api.sdk.exceptions.ApiException;
+import com.vk.api.sdk.exceptions.ClientException;
+import com.vk.api.sdk.httpclient.HttpTransportClient;
+import com.vk.api.sdk.objects.messages.Message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import ru.mityushin.responder.config.VKGroupActor;
 import ru.mityushin.responder.dto.MessagesSendDto;
 import ru.mityushin.responder.dto.MessagesSendResultDto;
 import ru.mityushin.responder.util.exception.MessageSenderException;
@@ -21,18 +29,25 @@ import java.util.Objects;
  */
 @Service
 @RequiredArgsConstructor
-public class VkMessageSenderService implements MessageSenderService<MessagesSendDto> {
+public class VkMessageSenderService {
     private static final int TEXT_MAX_LENGTH = 2000;
     private final RestTemplate restTemplate;
     private final VkUriCreator vkUriCreator;
+    private VKGroupActor vkGroupActor;
+    private VkApiClient vk;
 
-    @Override
-    public void send(MessagesSendDto message) {
-        List<MessagesSendDto> messages = parseIfRequired(message);
-        messages.forEach(this::sendInternal);
+    public void send(Message message) throws ClientException, ApiException {
+        Message messages = new Message();
+        TransportClient transportClient = HttpTransportClient.getInstance();
+        vk = vk = new VkApiClient(transportClient);
+        vk.messages().send(vkGroupActor.getGroupActor()).message(message.getBody()).execute();
+
+       /* List<MessagesSendDto> messages = parseIfRequired(message);
+        messages.forEach(this::sendInternal);*/
     }
 
     private List<MessagesSendDto> parseIfRequired(MessagesSendDto dto) {
+        CallbackApi s = new CallbackApi();
         String originalMessage = dto.getMessage();
         int capacity = originalMessage.length() / TEXT_MAX_LENGTH + 1;
         ArrayList<MessagesSendDto> result = new ArrayList<>(capacity);
