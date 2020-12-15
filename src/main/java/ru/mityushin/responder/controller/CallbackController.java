@@ -20,11 +20,11 @@ import ru.mityushin.responder.service.CallbackService;
 @RequiredArgsConstructor
 public class CallbackController {
     private final CallbackService callbackService;
+    private final CallbackApiHandler callbackApiHandler;
 
     @PostMapping
     @ResponseBody
-    public String handleCallback(@RequestBody String callbackDto) {
-        CallbackApiHandler callbackApiHandler = new CallbackApiHandler(vkMessageSenderService);
+    public String handleCallback(@RequestBody String callbackDto) { ;
         callbackApiHandler.parse(callbackDto);
         return "ok";
     }
