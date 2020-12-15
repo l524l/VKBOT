@@ -1,5 +1,8 @@
 package ru.mityushin.responder.service;
 
+import com.vk.api.sdk.exceptions.ApiException;
+import com.vk.api.sdk.exceptions.ClientException;
+
 /**
  * Simple message sender service which allow send messages
  *
@@ -13,5 +16,5 @@ public interface MessageSenderService<T> {
      *
      * @param message data transfer object contains message
      */
-    void send(T message);
+    void send(T message) throws ClientException, ApiException;
 }

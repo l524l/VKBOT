@@ -1,5 +1,8 @@
 package ru.mityushin.responder.service;
 
+import com.vk.api.sdk.actions.Messages;
+import com.vk.api.sdk.exceptions.ApiException;
+import com.vk.api.sdk.exceptions.ClientException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.mityushin.responder.commandsmodule.Commander;
@@ -24,10 +27,10 @@ import java.util.Objects;
 public class MessageNewCallbackService implements CallbackService {
     private final VkApiConfigurationProperties vkApiConfigurationProperties;
     private final MessageNewCallbackRepository messageNewCallbackRepository;
-    private final MessageSenderService<MessagesSendDto> messageSenderService;
+    private final VkMessageSenderService messageSenderService;
 
     @Override
-    public String handleCallback(CallbackDto callbackDto) {
+    public String handleCallback(CallbackDto callbackDto) throws ClientException, ApiException {
         validateSecret(callbackDto);
         switch (Objects.requireNonNull(callbackDto.getType())) {
             case confirmation: {
@@ -51,7 +54,7 @@ public class MessageNewCallbackService implements CallbackService {
         }
     }
 
-    private void handleMessageNew(MessageNewCallback messageNewCallback) {
+    private void handleMessageNew(MessageNewCallback messageNewCallback) throws ClientException, ApiException {
         MessageNewCallback saved = messageNewCallbackRepository.save(messageNewCallback);
         String s = Commander.execute(saved.getText());
         System.out.println("SSS: " + s);
@@ -61,7 +64,7 @@ public class MessageNewCallbackService implements CallbackService {
                 .groupId(saved.getGroupId())
                 .build();
         //messageSenderService.send(dto);
-        messageSenderService.send(dto);
+        messageSenderService.send(null);
         System.out.println("ОТПРАВЛЕНО");
     }
 

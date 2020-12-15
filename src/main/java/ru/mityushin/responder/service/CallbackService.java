@@ -1,5 +1,7 @@
 package ru.mityushin.responder.service;
 
+import com.vk.api.sdk.exceptions.ApiException;
+import com.vk.api.sdk.exceptions.ClientException;
 import ru.mityushin.responder.dto.CallbackDto;
 
 /**
@@ -15,5 +17,5 @@ public interface CallbackService {
      * @param callbackDto deserialized callback from request
      * @return string for {@code ResponseEntity}
      */
-    String handleCallback(CallbackDto callbackDto);
+    String handleCallback(CallbackDto callbackDto) throws ClientException, ApiException;
 }
