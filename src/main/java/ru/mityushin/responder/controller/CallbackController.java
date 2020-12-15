@@ -19,7 +19,6 @@ import ru.mityushin.responder.service.CallbackService;
 @RequestMapping(value = "/callbacks")
 @RequiredArgsConstructor
 public class CallbackController {
-    private final CallbackService callbackService;
     private final CallbackApiHandler callbackApiHandler;
 
     @PostMapping
