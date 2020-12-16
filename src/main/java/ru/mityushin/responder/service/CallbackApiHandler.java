@@ -1,8 +1,13 @@
 package ru.mityushin.responder.service;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.vk.api.sdk.callback.CallbackApi;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
+import com.vk.api.sdk.objects.callback.ConfirmationMessage;
+import com.vk.api.sdk.objects.callback.messages.CallbackMessage;
 import com.vk.api.sdk.objects.messages.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +29,7 @@ public class CallbackApiHandler extends CallbackApi {
     public void messageNew(Integer groupId, Message message) {
         Message message1 = new Message();
         LOG.info("MESSAGE: " + message.getText());
-        message.setText("BE");
+        message.setText("вы сказали: " + message.getText());
         try {
             vkMessageSenderService.send(message);
         } catch (ClientException e) {
@@ -48,5 +53,29 @@ public class CallbackApiHandler extends CallbackApi {
             e.printStackTrace();
         }
 
+    }
+    Gson gson = new Gson();
+
+    @Override
+    public boolean parse(String json) {
+        JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+        return parse(jsonObject);
+    }
+
+    private static final String CALLBACK_EVENT_CONFIRMATION = "confirmation";
+    @Override
+    public boolean parse(JsonObject json) {
+        String type = json.get("type").getAsString();
+        if (type.equalsIgnoreCase(CALLBACK_EVENT_CONFIRMATION)) {
+            ConfirmationMessage message = gson.fromJson(json, ConfirmationMessage.class);
+            confirmation(message.getGroupId(), message.getSecret());
+            return true;
+        }else {
+            int groupId = json.get("group_id").getAsInt();
+            String s = json.get("secret").getAsString();
+            Message message =  gson.fromJson(json.get("object").getAsJsonObject().get("message"),Message.class);
+            messageNew(groupId, s, message);
+            return true;
+        }
     }
 }

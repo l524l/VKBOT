@@ -42,7 +42,7 @@ public class VkMessageSenderService {
         message.setRandomId(new Random().nextInt());
         TransportClient transportClient = HttpTransportClient.getInstance();
         vk = vk = new VkApiClient(transportClient);
-        vk.messages().send(vkGroupActor.getGroupActor()).message(message.getText()).randomId(new Random().nextInt()).peerId(446899878).execute();
+        vk.messages().send(vkGroupActor.getGroupActor()).message(message.getText()).randomId(new Random().nextInt()).peerId(message.getPeerId()).execute();
 
        /* List<MessagesSendDto> messages = parseIfRequired(message);
         messages.forEach(this::sendInternal);*/
