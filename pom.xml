@@ -62,7 +62,7 @@
         <dependency>
             <groupId>com.vk.api</groupId>
             <artifactId>sdk</artifactId>
-            <version>1.0.7</version>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 

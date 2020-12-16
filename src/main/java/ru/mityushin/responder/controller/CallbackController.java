@@ -1,5 +1,9 @@
 package ru.mityushin.responder.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.vk.api.sdk.objects.callback.messages.CallbackMessage;
+import com.vk.api.sdk.objects.messages.Message;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +30,11 @@ public class CallbackController {
 
     @PostMapping
     @ResponseBody
-    public String handleCallback(@RequestBody String callbackDto) { ;
+    public String handleCallback(@RequestBody String callbackDto) {
+        Gson gson = new Gson();
+        Message message = gson.fromJson("{\"date\":1608123144,\"from_id\":446899878,\"id\":549,\"out\":0,\"peer_id\":446899878,\"text\":\"ываыва\",\"conversation_message_id\":315,\"fwd_messages\":[],\"important\":false,\"random_id\":0,\"attachments\":[],\"is_hidden\":false}", Message.class);
+
+
         LOG.info("REQUEST:  " + callbackDto);
         callbackApiHandler.parse(callbackDto);
         return "ok";

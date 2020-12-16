@@ -39,7 +39,7 @@ public class CallbackApiHandler extends CallbackApi {
     public void confirmation(Integer groupId) {
         Message message1 = new Message();
         super.confirmation(groupId);
-        message1.setText("");
+        message1.setText("d70aff5a");
         try {
             vkMessageSenderService.send(message1);
         } catch (ClientException e) {
