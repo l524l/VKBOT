@@ -34,6 +34,6 @@ public class CallbackController {
         Gson gson = new Gson();
         LOG.info("REQUEST:  " + callbackDto);
         callbackApiHandler.parse(callbackDto);
-        return "d70aff5a";
+        return "ok";
     }
 }
