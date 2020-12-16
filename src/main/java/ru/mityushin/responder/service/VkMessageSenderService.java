@@ -20,6 +20,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 /**
  * Message sender service which work with VK API
@@ -33,14 +34,15 @@ public class VkMessageSenderService {
     private static final int TEXT_MAX_LENGTH = 2000;
     private final RestTemplate restTemplate;
     private final VkUriCreator vkUriCreator;
-    private VKGroupActor vkGroupActor;
+    private final VKGroupActor vkGroupActor;
     private VkApiClient vk;
 
     public void send(Message message) throws ClientException, ApiException {
         Message messages = new Message();
+        message.setRandomId(new Random().nextInt());
         TransportClient transportClient = HttpTransportClient.getInstance();
         vk = vk = new VkApiClient(transportClient);
-        vk.messages().send(vkGroupActor.getGroupActor()).message("БУ!").execute();
+        vk.messages().send(vkGroupActor.getGroupActor()).message(message.getText()).randomId(new Random().nextInt()).peerId(446899878).execute();
 
        /* List<MessagesSendDto> messages = parseIfRequired(message);
         messages.forEach(this::sendInternal);*/

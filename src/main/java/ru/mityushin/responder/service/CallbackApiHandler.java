@@ -22,7 +22,9 @@ public class CallbackApiHandler extends CallbackApi {
 
     @Override
     public void messageNew(Integer groupId, Message message) {
+        Message message1 = new Message();
         LOG.info("MESSAGE: " + message.getText());
+        message.setText("BE");
         try {
             vkMessageSenderService.send(message);
         } catch (ClientException e) {
@@ -31,5 +33,20 @@ public class CallbackApiHandler extends CallbackApi {
             e.printStackTrace();
         }
         System.out.println(message.getText());
+    }
+
+    @Override
+    public void confirmation(Integer groupId) {
+        Message message1 = new Message();
+        super.confirmation(groupId);
+        message1.setText("");
+        try {
+            vkMessageSenderService.send(message1);
+        } catch (ClientException e) {
+            e.printStackTrace();
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+
     }
 }

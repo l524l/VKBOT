@@ -6,8 +6,5 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class VKGroupActorConfig {
-    @Bean
-    public VKGroupActor groupActor(){
-        return new VKGroupActor();
-    }
+
 }
