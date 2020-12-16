@@ -1,16 +1,18 @@
 package ru.mityushin.responder.commandsmodule;
 
+import com.vk.api.sdk.exceptions.ApiException;
+import com.vk.api.sdk.exceptions.ClientException;
+import com.vk.api.sdk.objects.messages.Message;
 import ru.mityushin.responder.checkers.CheckersBoard;
-import ru.mityushin.responder.dto.MessagesSendDto;
-import ru.mityushin.responder.entity.MessageNewCallback;
+import ru.mityushin.responder.service.VkMessageSenderService;
 
 public class Reset extends Command {
-    public Reset(String name) {
-        super(name);
+    public Reset(VkMessageSenderService messageSenderService, String name) {
+        super(messageSenderService, name);
     }
 
     @Override
-    public String exec(String message) {
+    public void exec(Message message) {
         CheckersBoard checkersBoard = CheckersBoard.getCheckersBoard();
         checkersBoard.resetBoard();
 
@@ -24,7 +26,13 @@ public class Reset extends Command {
             s = s.concat("\n");
         }
         System.out.println(s);
-
-        return s;
+        message.setText(s);
+        try {
+            messageSenderService.send(message);
+        } catch (ClientException e) {
+            e.printStackTrace();
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
     }
 }

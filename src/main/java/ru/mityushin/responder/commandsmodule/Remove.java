@@ -1,16 +1,18 @@
 package ru.mityushin.responder.commandsmodule;
 
+import com.vk.api.sdk.exceptions.ApiException;
+import com.vk.api.sdk.exceptions.ClientException;
+import com.vk.api.sdk.objects.messages.Message;
 import ru.mityushin.responder.checkers.CheckersBoard;
-import ru.mityushin.responder.dto.MessagesSendDto;
-import ru.mityushin.responder.entity.MessageNewCallback;
+import ru.mityushin.responder.service.VkMessageSenderService;
 
 public class Remove extends Command {
-    public Remove(String name) {
-        super(name);
+    public Remove(VkMessageSenderService messageSenderService, String name) {
+        super(messageSenderService, name);
     }
 
     @Override
-    public String exec(String message) {
+    public void exec(Message message) {
         String param = getParam();
         CheckersBoard checkersBoard = CheckersBoard.getCheckersBoard();
         checkersBoard.removeСheckers(param);
@@ -25,7 +27,13 @@ public class Remove extends Command {
             s = s.concat("\n");
         }
         System.out.println(s);
-
-        return s;
+        message.setText(s);
+        try {
+            messageSenderService.send(message);
+        } catch (ClientException e) {
+            e.printStackTrace();
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
     }
 }

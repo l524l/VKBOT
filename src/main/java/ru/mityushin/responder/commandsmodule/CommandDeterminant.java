@@ -1,5 +1,6 @@
 package ru.mityushin.responder.commandsmodule;
 
+import com.vk.api.sdk.objects.messages.Message;
 import ru.mityushin.responder.entity.MessageNewCallback;
 
 import java.util.Collection;
@@ -13,8 +14,8 @@ import java.util.Collection;
 public class CommandDeterminant {
 
 
-    public static Command getCommand(Collection<Command> commands, String message) {
-        String body = message;
+    public static Command getCommand(Collection<Command> commands, Message message) {
+        String body = message.getText();
 
         for (Command command : commands
         ) {
@@ -27,7 +28,7 @@ public class CommandDeterminant {
                 }
         }
 
-        return new Unknown("unknown");
+        return new Unknown(null,"unknown");
     }
 
 }

@@ -1,8 +1,7 @@
 package ru.mityushin.responder.commandsmodule;
 
-import ru.mityushin.responder.dto.CallbackDto;
-import ru.mityushin.responder.dto.MessagesSendDto;
-import ru.mityushin.responder.entity.MessageNewCallback;
+import com.vk.api.sdk.objects.messages.Message;
+import ru.mityushin.responder.service.VkMessageSenderService;
 
 /**
  * Abstract class for all executable classes-commands
@@ -12,10 +11,12 @@ import ru.mityushin.responder.entity.MessageNewCallback;
  * @version 1.1
  */
 public abstract class Command {
+    protected final VkMessageSenderService messageSenderService;
 
     public final String name;
 
-    public Command(String name){
+    public Command(VkMessageSenderService messageSenderService, String name){
+        this.messageSenderService = messageSenderService;
         this.name = name;
     }
 
@@ -37,7 +38,7 @@ public abstract class Command {
      * Метод, который будет вызываться для исполнения команды
      * @param message сообщение пользователя
      */
-    public abstract String exec(String message);
+    public abstract void exec(Message message);
 
     /**
      * Возвращает строку в формате:<br>

@@ -2,32 +2,34 @@ package ru.mityushin.responder.service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import com.vk.api.sdk.callback.CallbackApi;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.callback.ConfirmationMessage;
-import com.vk.api.sdk.objects.callback.messages.CallbackMessage;
 import com.vk.api.sdk.objects.messages.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.mityushin.responder.commandsmodule.Commander;
 import ru.mityushin.responder.controller.CallbackController;
 
 @Service
 public class CallbackApiHandler extends CallbackApi {
     private static final Logger LOG = LoggerFactory.getLogger(CallbackController.class);
     private final VkMessageSenderService vkMessageSenderService;
+    private final Commander commander;
 
     @Autowired
-    public CallbackApiHandler(VkMessageSenderService vkMessageSenderService) {
+    public CallbackApiHandler(VkMessageSenderService vkMessageSenderService, Commander commander) {
         this.vkMessageSenderService = vkMessageSenderService;
+        this.commander = commander;
     }
 
     @Override
     public void messageNew(Integer groupId, Message message) {
-        Message message1 = new Message();
+        commander.execute(message);
+        /*Message message1 = new Message();
         LOG.info("MESSAGE: " + message.getText());
         message.setText("вы сказали: " + message.getText());
         try {
@@ -37,7 +39,7 @@ public class CallbackApiHandler extends CallbackApi {
         } catch (ApiException e) {
             e.printStackTrace();
         }
-        System.out.println(message.getText());
+        System.out.println(message.getText());*/
     }
 
     @Override

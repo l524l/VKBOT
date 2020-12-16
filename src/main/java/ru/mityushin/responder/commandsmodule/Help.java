@@ -1,8 +1,8 @@
 package ru.mityushin.responder.commandsmodule;
 
-import ru.mityushin.responder.commandsmodule.Command;
-import ru.mityushin.responder.dto.MessagesSendDto;
-import ru.mityushin.responder.entity.MessageNewCallback;
+import com.vk.api.sdk.exceptions.ApiException;
+import com.vk.api.sdk.exceptions.ClientException;
+import com.vk.api.sdk.objects.messages.Message;
 import ru.mityushin.responder.service.VkMessageSenderService;
 
 /**
@@ -10,17 +10,24 @@ import ru.mityushin.responder.service.VkMessageSenderService;
  */
 public class Help extends Command {
 
-    public Help(String name) {
-        super(name);
+    public Help(VkMessageSenderService messageSenderService, String name) {
+        super(messageSenderService, name);
     }
 
     @Override
-    public String exec(String message) {
+    public void exec(Message message) {
         String s = "Список команд:\n" +
                 ".move XYtoXY - перемещает шашку в соответствии с заданными координатами\n" +
                 ".reset - cmoбрасывает игру\n" +
                 ".remove XY - удаляет побитые шашки может принимать несколько пармаетров(Remove XY;XY;XY ...)\n" +
                 ".help - вызвать это меню";
-        return s;
+        message.setText(s);
+        try {
+            messageSenderService.send(message);
+        } catch (ClientException e) {
+            e.printStackTrace();
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
     }
 }
