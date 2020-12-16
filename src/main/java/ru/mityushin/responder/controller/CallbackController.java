@@ -1,7 +1,9 @@
 package ru.mityushin.responder.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.vk.api.sdk.objects.callback.ConfirmationMessage;
 import com.vk.api.sdk.objects.callback.messages.CallbackMessage;
 import com.vk.api.sdk.objects.messages.Message;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +35,13 @@ public class CallbackController {
     public String handleCallback(@RequestBody String callbackDto) {
         Gson gson = new Gson();
         LOG.info("REQUEST:  " + callbackDto);
-        callbackApiHandler.parse(callbackDto);
-        return "ok";
+        JsonObject json = gson.fromJson(callbackDto, JsonObject.class);
+        String type = json.get("type").getAsString();
+        if (type.equalsIgnoreCase("confirmation")) {
+            return "d70aff5a";
+        }else {
+            callbackApiHandler.parse(callbackDto);
+            return "ok";
+        }
     }
 }
