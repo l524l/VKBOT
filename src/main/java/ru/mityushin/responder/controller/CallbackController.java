@@ -37,6 +37,6 @@ public class CallbackController {
 
         LOG.info("REQUEST:  " + callbackDto);
         callbackApiHandler.parse(callbackDto);
-        return "ok";
+        return "d70aff5a";
     }
 }
