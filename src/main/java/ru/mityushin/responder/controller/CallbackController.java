@@ -32,9 +32,9 @@ public class CallbackController {
     @ResponseBody
     public String handleCallback(@RequestBody String callbackDto) {
         Gson gson = new Gson();
-        Message message = gson.fromJson("{\"date\":1608123144,\"from_id\":446899878,\"id\":549,\"out\":0,\"peer_id\":446899878,\"text\":\"ываыва\",\"conversation_message_id\":315,\"fwd_messages\":[],\"important\":false,\"random_id\":0,\"attachments\":[],\"is_hidden\":false}", Message.class);
-        LOG.info("REQUEST:  " + callbackDto);
-        callbackApiHandler.parse(callbackDto);
+      //  Message message = gson.fromJson("{\"date\":1608123144,\"from_id\":446899878,\"id\":549,\"out\":0,\"peer_id\":446899878,\"text\":\"ываыва\",\"conversation_message_id\":315,\"fwd_messages\":[],\"important\":false,\"random_id\":0,\"attachments\":[],\"is_hidden\":false}", Message.class);
+      //  LOG.info("REQUEST:  " + callbackDto);
+      //  callbackApiHandler.parse(callbackDto);
         return "d70aff5a";
     }
 }
