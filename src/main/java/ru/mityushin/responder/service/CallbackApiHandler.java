@@ -29,17 +29,6 @@ public class CallbackApiHandler extends CallbackApi {
     @Override
     public void messageNew(Integer groupId, Message message) {
         commander.execute(message);
-        /*Message message1 = new Message();
-        LOG.info("MESSAGE: " + message.getText());
-        message.setText("вы сказали: " + message.getText());
-        try {
-            vkMessageSenderService.send(message);
-        } catch (ClientException e) {
-            e.printStackTrace();
-        } catch (ApiException e) {
-            e.printStackTrace();
-        }
-        System.out.println(message.getText());*/
     }
 
     @Override

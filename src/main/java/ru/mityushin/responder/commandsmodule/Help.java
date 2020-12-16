@@ -18,7 +18,7 @@ public class Help extends Command {
     public void exec(Message message) {
         String s = "Список команд:\n" +
                 ".move XYtoXY - перемещает шашку в соответствии с заданными координатами\n" +
-                ".reset - cmoбрасывает игру\n" +
+                ".reset - сбрасывает игру\n" +
                 ".remove XY - удаляет побитые шашки может принимать несколько пармаетров(Remove XY;XY;XY ...)\n" +
                 ".help - вызвать это меню";
         message.setText(s);

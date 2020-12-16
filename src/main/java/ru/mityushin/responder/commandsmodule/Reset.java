@@ -26,7 +26,7 @@ public class Reset extends Command {
             s = s.concat("\n");
         }
         System.out.println(s);
-        message.setText(s);
+        message.setText("Ваше поле:\n" + s);
         try {
             messageSenderService.send(message);
         } catch (ClientException e) {
