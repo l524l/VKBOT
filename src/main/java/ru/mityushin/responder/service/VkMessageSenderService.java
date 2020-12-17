@@ -6,9 +6,12 @@ import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
 import com.vk.api.sdk.objects.messages.Message;
+import com.vk.api.sdk.queries.photos.PhotosGetMessagesUploadServerQuery;
+import com.vk.api.sdk.queries.upload.UploadPhotoMessageQuery;
 import org.springframework.stereotype.Service;
 import ru.mityushin.responder.config.VKGroupActor;
 
+import java.io.File;
 import java.util.Random;
 
 /**
@@ -27,9 +30,16 @@ public class VkMessageSenderService {
     }
 
     public void send(Message message) throws ClientException, ApiException {
-        message.setRandomId(new Random().nextInt());
         TransportClient transportClient = HttpTransportClient.getInstance();
         vk = vk = new VkApiClient(transportClient);
+        message.setRandomId(new Random().nextInt());
+        vk.setVersion("5.126");
+        /*PhotosGetMessagesUploadServerQuery messagesUploadServer = vk.photos().getMessagesUploadServer(vkGroupActor.getGroupActor());
+        File file = new File("classpath://paterns/demo.png");
+        vk.upload();
+        UploadPhotoMessageQuery uploadPhotoMessageQuery = vk.upload().photoMessage(messagesUploadServer.getUrl(), file);
+        vk.photos().saveMessagesPhoto(vkGroupActor.getGroupActor(),uploadPhotoMessageQuery.executeAsString());
+        System.out.println();*/
         vk.messages().send(vkGroupActor.getGroupActor()).message(message.getText()).randomId(new Random().nextInt()).peerId(message.getPeerId()).execute();
     }
 }
