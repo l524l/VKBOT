@@ -66,6 +66,7 @@ public class NewCheckersBoard {
     private File loadPatternsToTempFiles(String resourcePath, String tempPrefix, String tempSuffix) throws IOException {
         UrlResource resource = new UrlResource(resourcePath);
         File file = File.createTempFile(tempPrefix,tempSuffix);
+        file.deleteOnExit();
         FileOutputStream out = new FileOutputStream(file);
         IOUtils.copy(resource.getInputStream(), out);
         return file;
