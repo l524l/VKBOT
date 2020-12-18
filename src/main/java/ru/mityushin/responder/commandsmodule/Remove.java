@@ -5,6 +5,7 @@ import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.messages.Message;
 import ru.mityushin.responder.checkers.CheckersBoard;
 import ru.mityushin.responder.checkers.NewCheckersBoard;
+import ru.mityushin.responder.exceptions.BadParameterDetected;
 import ru.mityushin.responder.service.VkMessageSenderService;
 
 public class Remove extends Command {
@@ -16,13 +17,16 @@ public class Remove extends Command {
     public void exec(Message message) {
         String param = getParam();
         NewCheckersBoard checkersBoard = NewCheckersBoard.getCheckersBoard();
-        checkersBoard.removeСheckers(param);
+
         try {
+            checkersBoard.removeСheckers(param);
             messageSenderService.sendPhoto(message, checkersBoard.getBoard());
         } catch (ClientException e) {
             e.printStackTrace();
         } catch (ApiException e) {
             e.printStackTrace();
+        } catch (BadParameterDetected badParameterDetected) {
+            message.setText(badParameterDetected.getMessage());
         }
     }
 }

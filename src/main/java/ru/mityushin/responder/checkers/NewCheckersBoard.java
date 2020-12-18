@@ -2,6 +2,7 @@ package ru.mityushin.responder.checkers;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.UrlResource;
+import ru.mityushin.responder.exceptions.BadParameterDetected;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -14,10 +15,12 @@ import java.util.Arrays;
 public class NewCheckersBoard {
     private static NewCheckersBoard checkersBoard;
     private File mainField;
+    private File backupField;
     private File redCh;
     private File blueCh;
     private File redQCh;
     private File blueQCh;
+
 
     //формат x_y:ch где ch может быть b, bq, r, rq, v. w если поле белое;
     private final String[][] DEFAULT_BOARD_STATE= {
@@ -31,6 +34,7 @@ public class NewCheckersBoard {
             {"w","128_512:b","w","256_512:b","w","348_512:b","w","512_512:b"},
     };
     private String[][] currentBoardState;
+    private String[][] backupBoardState;
 
     private NewCheckersBoard(){
         try {
@@ -51,9 +55,11 @@ public class NewCheckersBoard {
     }
     public void resetBoard() throws IOException {
         mainField = loadPatternsToTempFiles("classpath:patterns/demo2.png","board",".png");
+        backupField = loadPatternsToTempFiles("classpath:patterns/demo2.png","backup_board",".png");
         currentBoardState = new String[DEFAULT_BOARD_STATE.length][];
         for (int i = 0; i < this.DEFAULT_BOARD_STATE.length; i++) {
             currentBoardState[i] = Arrays.copyOf(DEFAULT_BOARD_STATE[i], DEFAULT_BOARD_STATE.length);
+            backupBoardState[i] = Arrays.copyOf(DEFAULT_BOARD_STATE[i], DEFAULT_BOARD_STATE.length);
         }
     }
     private File loadPatternsToTempFiles(String resourcePath, String tempPrefix, String tempSuffix) throws IOException {
@@ -66,47 +72,97 @@ public class NewCheckersBoard {
     public File getBoard(){
         return mainField;
     }
-    public void moveСhecker(String command){
-        int XFrom = Character.getNumericValue(command.charAt(0)) - 1;
-        int YFrom = Character.getNumericValue(command.charAt(1)) - 1;
-        int XTo = Character.getNumericValue(command.charAt(4)) - 1;
-        int YTo = Character.getNumericValue(command.charAt(5)) - 1;
-        String[] from = currentBoardState[YFrom][XFrom].split(":");
-        String[] to = currentBoardState[YTo][XTo].split(":");
-        if ((from[1].equals("r") || from[1].equals("b") || from[1].equals("bq") || from[1].equals("rq")) && to[1].equals("v")){
-            try {
-                if (YTo == 1 && from[1].equals("b")){
-                    writeMove(from[0],to[0],"bq");
-                } else if (YTo == 8 && from[1].equals("r")){
-                    writeMove(from[0],to[0],"rq");
-                } else {
-                    writeMove(from[0],to[0],from[1]);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    public void removeСheckers(String command){
-        String[] removePositions = command.split(";");
-        for (int i = 0; i < removePositions.length; i++) {
-            String position = removePositions[i];
-            int x = Character.getNumericValue(position.charAt(0)) - 1;
-            int y = Character.getNumericValue(position.charAt(1)) - 1;
-            String[] state = currentBoardState[y][x].split(":");
-
-            if (state[1].equals("r")
-                    || state[1].equals("b")
-                    || state[1].equals("bq")
-                    || state[1].equals("rq"))
-            {
+    public void moveСhecker(String command) throws BadParameterDetected {
+        if (command.matches("[1-8][1-8]to[1-8][1-8]")) {
+            int XFrom = Character.getNumericValue(command.charAt(0)) - 1;
+            int YFrom = Character.getNumericValue(command.charAt(1)) - 1;
+            int XTo = Character.getNumericValue(command.charAt(4)) - 1;
+            int YTo = Character.getNumericValue(command.charAt(5)) - 1;
+            String[] from = currentBoardState[YFrom][XFrom].split(":");
+            String[] to = currentBoardState[YTo][XTo].split(":");
+            if ((from[1].equals("r") || from[1].equals("b") || from[1].equals("bq") || from[1].equals("rq")) && to[1].equals("v")) {
                 try {
-                    writeRemove(state[0]);
+                    if (YTo == 0 && from[1].equals("b")) {
+                        writeMove(from[0], to[0], "bq");
+                        currentBoardState[YTo][XTo] = to[0] + ":bq";
+                    } else if (YTo == 7 && from[1].equals("r")) {
+                        writeMove(from[0], to[0], "rq");
+                        currentBoardState[YTo][XTo] = to[0] + ":rq";
+                    } else {
+                        writeMove(from[0], to[0], from[1]);
+                        currentBoardState[YTo][XTo] = to[0] + ":" + to[1];
+                    }
+                    currentBoardState[YFrom][XFrom] = from[0] + ":v";
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            } else {
+                loadBackup();
+                throw new BadParameterDetected("Невозможно перемещение по указанным координатам");
             }
+        } else {
+            loadBackup();
+            throw new BadParameterDetected("Начальные или конечные координаты содержат ошибку");
         }
+        saveBackup();
+    }
+    private void saveBackup(){
+        for (int i = 0; i < currentBoardState.length; i++) {
+            backupBoardState[i] = Arrays.copyOf(currentBoardState[i], currentBoardState.length);
+        }
+        BufferedImage field = null;
+        try {
+            field = ImageIO.read(mainField);
+            ImageIO.write(field, "png", backupField);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void loadBackup(){
+        for (int i = 0; i < backupBoardState.length; i++) {
+            currentBoardState[i] = Arrays.copyOf(backupBoardState[i], backupBoardState.length);
+        }
+        BufferedImage field = null;
+        try {
+            field = ImageIO.read(backupField);
+            ImageIO.write(field, "png", mainField);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeСheckers(String command) throws BadParameterDetected {
+        if (command.matches("[1-8][1-8]")
+                || command.matches("[1-8][1-8];[1-8][1-8]")
+                || command.matches("[1-8][1-8];[1-8][1-8];[1-8][1-8]")
+        ) {
+            String[] removePositions = command.split(";");
+            for (int i = 0; i < removePositions.length; i++) {
+                String position = removePositions[i];
+                int x = Character.getNumericValue(position.charAt(0)) - 1;
+                int y = Character.getNumericValue(position.charAt(1)) - 1;
+                String[] state = currentBoardState[y][x].split(":");
+
+                if (state[1].equals("r")
+                        || state[1].equals("b")
+                        || state[1].equals("bq")
+                        || state[1].equals("rq")) {
+                    try {
+                        writeRemove(state[0]);
+                        currentBoardState[y][x] = state[0] + ":v";
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    loadBackup();
+                    throw new BadParameterDetected("Один или несколько параметров ошибочны!");
+                }
+            }
+        } else {
+            loadBackup();
+            throw new BadParameterDetected();
+        }
+        saveBackup();
     }
 
     public void writeRemove(String XY) throws IOException {
