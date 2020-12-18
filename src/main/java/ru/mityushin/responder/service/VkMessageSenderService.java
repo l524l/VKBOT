@@ -41,17 +41,18 @@ public class VkMessageSenderService {
     private final VKGroupActor vkGroupActor;
     private VkApiClient vk;
 
+
     public VkMessageSenderService(VKGroupActor vkGroupActor) {
         this.vkGroupActor = vkGroupActor;
+        TransportClient transportClient = HttpTransportClient.getInstance();
+        vk = new VkApiClient(transportClient);
+        vk.setVersion("5.126");
     }
 
-    public void send(Message message) throws ClientException, ApiException {
-        TransportClient transportClient = HttpTransportClient.getInstance();
-        vk = vk = new VkApiClient(transportClient);
+    public void sendPhoto(Message message, File image) throws ClientException, ApiException {
         message.setRandomId(new Random().nextInt());
         GetMessagesUploadServerResponse response = vk.photos().getMessagesUploadServer(vkGroupActor.getGroupActor()).execute();
-        ApplicationContext context = new ClassPathXmlApplicationContext();
-        UrlResource resource = null;
+        /*UrlResource resource = null;
         try {
             resource = new UrlResource("classpath:paterns/promo.png");
 
@@ -70,13 +71,18 @@ public class VkMessageSenderService {
             IOUtils.copy(resource.getInputStream(), out);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
-        MessageUploadResponse mphoto = vk.upload().photoMessage(response.getUploadUrl().toString(), file).execute();
+        MessageUploadResponse mphoto = vk.upload().photoMessage(response.getUploadUrl().toString(), image).execute();
         List<SaveMessagesPhotoResponse> photoQuery = vk.photos().saveMessagesPhoto(vkGroupActor.getGroupActor(), mphoto.getPhoto()).hash(mphoto.getHash()).server(mphoto.getServer()).execute();
-        vk.setVersion("5.126");
+
 
         String attach = "photo" + photoQuery.get(0).getOwnerId() +"_"+ photoQuery.get(0).getId();
-        vk.messages().send(vkGroupActor.getGroupActor()).message(message.getText()).randomId(new Random().nextInt()).peerId(message.getPeerId()).attachment(attach).execute();
+        vk.messages().send(vkGroupActor.getGroupActor()).randomId(new Random().nextInt()).peerId(message.getPeerId()).attachment(attach).execute();
+    }
+
+    public void send(Message message) throws ClientException, ApiException {
+        message.setRandomId(new Random().nextInt());
+        vk.messages().send(vkGroupActor.getGroupActor()).message(message.getText()).randomId(new Random().nextInt()).peerId(message.getPeerId()).execute();
     }
 }
