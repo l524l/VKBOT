@@ -26,7 +26,7 @@ public class Move extends Command {
         } catch (BadParameterDetected badParameterDetected) {
             message.setText(badParameterDetected.getMessage());
             try {
-                messageSenderService.sendPhoto(message, checkersBoard.getBoard());
+                messageSenderService.send(message);
             } catch (ClientException e) {
                 e.printStackTrace();
             } catch (ApiException e) {
