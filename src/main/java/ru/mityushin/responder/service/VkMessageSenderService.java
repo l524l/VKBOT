@@ -16,13 +16,17 @@ import com.vk.api.sdk.objects.photos.responses.SaveMessagesPhotoResponse;
 import com.vk.api.sdk.queries.photos.PhotosGetMessagesUploadServerQuery;
 import com.vk.api.sdk.queries.photos.PhotosSaveMessagesPhotoQuery;
 import com.vk.api.sdk.queries.upload.UploadPhotoMessageQuery;
+import org.apache.commons.io.IOUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import ru.mityushin.responder.config.VKGroupActor;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Random;
 
@@ -47,12 +51,27 @@ public class VkMessageSenderService {
         message.setRandomId(new Random().nextInt());
         GetMessagesUploadServerResponse response = vk.photos().getMessagesUploadServer(vkGroupActor.getGroupActor()).execute();
         ApplicationContext context = new ClassPathXmlApplicationContext();
+        UrlResource resource = null;
+        try {
+            resource = new UrlResource("classpath:paterns/promo.png");
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
         File file = null;
         try {
-            file = context.getResource("classpath:paterns/promo.png").getFile();
+            file = File.createTempFile("as234234",".png");
         } catch (IOException e) {
             e.printStackTrace();
         }
+        file.deleteOnExit();
+        try (FileOutputStream out = new FileOutputStream(file)) {
+            IOUtils.copy(resource.getInputStream(), out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         MessageUploadResponse mphoto = vk.upload().photoMessage(response.getUploadUrl().toString(), file).execute();
         List<SaveMessagesPhotoResponse> photoQuery = vk.photos().saveMessagesPhoto(vkGroupActor.getGroupActor(), mphoto.getPhoto()).hash(mphoto.getHash()).server(mphoto.getServer()).execute();
         vk.setVersion("5.126");
