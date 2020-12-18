@@ -57,6 +57,7 @@ public class NewCheckersBoard {
         mainField = loadPatternsToTempFiles("classpath:patterns/demo2.png","board",".png");
         backupField = loadPatternsToTempFiles("classpath:patterns/demo2.png","backup_board",".png");
         currentBoardState = new String[DEFAULT_BOARD_STATE.length][];
+        backupBoardState = new String[DEFAULT_BOARD_STATE.length][];
         for (int i = 0; i < this.DEFAULT_BOARD_STATE.length; i++) {
             currentBoardState[i] = Arrays.copyOf(DEFAULT_BOARD_STATE[i], DEFAULT_BOARD_STATE.length);
             backupBoardState[i] = Arrays.copyOf(DEFAULT_BOARD_STATE[i], DEFAULT_BOARD_STATE.length);
