@@ -27,6 +27,13 @@ public class Remove extends Command {
             e.printStackTrace();
         } catch (BadParameterDetected badParameterDetected) {
             message.setText(badParameterDetected.getMessage());
+            try {
+                messageSenderService.sendPhoto(message, checkersBoard.getBoard());
+            } catch (ClientException e) {
+                e.printStackTrace();
+            } catch (ApiException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
