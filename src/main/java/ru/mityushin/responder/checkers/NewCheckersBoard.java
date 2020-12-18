@@ -67,10 +67,10 @@ public class NewCheckersBoard {
         return mainField;
     }
     public void moveСhecker(String command){
-        int XFrom = Character.getNumericValue(command.charAt(0));
-        int YFrom = Character.getNumericValue(command.charAt(1));
-        int XTo = Character.getNumericValue(command.charAt(4));
-        int YTo = Character.getNumericValue(command.charAt(5));
+        int XFrom = Character.getNumericValue(command.charAt(0)) - 1;
+        int YFrom = Character.getNumericValue(command.charAt(1)) - 1;
+        int XTo = Character.getNumericValue(command.charAt(4)) - 1;
+        int YTo = Character.getNumericValue(command.charAt(5)) - 1;
         String[] from = currentBoardState[YFrom][XFrom].split(":");
         String[] to = currentBoardState[YTo][XTo].split(":");
         if ((from[1].equals("r") || from[1].equals("b") || from[1].equals("bq") || from[1].equals("rq")) && to[1].equals("v")){
@@ -91,8 +91,8 @@ public class NewCheckersBoard {
         String[] removePositions = command.split(";");
         for (int i = 0; i < removePositions.length; i++) {
             String position = removePositions[i];
-            int x = Character.getNumericValue(position.charAt(0));
-            int y = Character.getNumericValue(position.charAt(1));
+            int x = Character.getNumericValue(position.charAt(0)) - 1;
+            int y = Character.getNumericValue(position.charAt(1)) - 1;
             String[] state = currentBoardState[y][x].split(":");
 
             if (state[1].equals("r")
@@ -115,7 +115,9 @@ public class NewCheckersBoard {
         String[] to = XY.split("_");
         for (int i = 0; i < 64; i++) {
             for (int j = 0; j < 64; j++) {
-                field.setRGB(Integer.getInteger(to[0]) + i,Integer.getInteger(to[1]) + j, color.getRGB());
+                int x = Integer.parseInt(to[0]);
+                int y = Integer.parseInt(to[1]);
+                field.setRGB(x + i,y + j, color.getRGB());
             }
         }
         ImageIO.write(field, "png", mainField);
@@ -144,7 +146,9 @@ public class NewCheckersBoard {
         for (int i = 0; i < patternImg.getHeight(); i++) {
             for (int j = 0; j < patternImg.getWidth(); j++) {
                 Color color = new Color(patternImg.getRGB(i,j));
-                field.setRGB(Integer.getInteger(to[0]) + i,Integer.getInteger(to[1]) + j, color.getRGB());
+                int x = Integer.parseInt(to[0]);
+                int y = Integer.parseInt(to[1]);
+                field.setRGB(x + i, y + j, color.getRGB());
             }
         }
         ImageIO.write(field, "png", mainField);
