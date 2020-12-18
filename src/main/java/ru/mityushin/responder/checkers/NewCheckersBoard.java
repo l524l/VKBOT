@@ -3,6 +3,9 @@ package ru.mityushin.responder.checkers;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.UrlResource;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -62,6 +65,90 @@ public class NewCheckersBoard {
     }
     public File getBoard(){
         return mainField;
+    }
+    public void moveСhecker(String command){
+        int XFrom = Character.getNumericValue(command.charAt(0));
+        int YFrom = Character.getNumericValue(command.charAt(1));
+        int XTo = Character.getNumericValue(command.charAt(4));
+        int YTo = Character.getNumericValue(command.charAt(5));
+        String[] from = currentBoardState[YFrom][XFrom].split(":");
+        String[] to = currentBoardState[YTo][XTo].split(":");
+        if ((from[1].equals("r") || from[1].equals("b") || from[1].equals("bq") || from[1].equals("rq")) && to[1].equals("v")){
+            try {
+                if (YTo == 1 && from[1].equals("b")){
+                    writeMove(from[0],to[0],"bq");
+                } else if (YTo == 8 && from[1].equals("r")){
+                    writeMove(from[0],to[0],"rq");
+                } else {
+                    writeMove(from[0],to[0],from[1]);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public void removeСheckers(String command){
+        String[] removePositions = command.split(";");
+        for (int i = 0; i < removePositions.length; i++) {
+            String position = removePositions[i];
+            int x = Character.getNumericValue(position.charAt(0));
+            int y = Character.getNumericValue(position.charAt(1));
+            String[] state = currentBoardState[y][x].split(":");
+
+            if (state[1].equals("r")
+                    || state[1].equals("b")
+                    || state[1].equals("bq")
+                    || state[1].equals("rq"))
+            {
+                try {
+                    writeRemove(state[0]);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void writeRemove(String XY) throws IOException {
+        BufferedImage field = ImageIO.read(mainField);
+        Color color = new Color(0,0,0);
+        String[] to = XY.split("_");
+        for (int i = 0; i < 64; i++) {
+            for (int j = 0; j < 64; j++) {
+                field.setRGB(Integer.getInteger(to[0]) + i,Integer.getInteger(to[1]) + j, color.getRGB());
+            }
+        }
+        ImageIO.write(field, "png", mainField);
+    }
+
+    public void writeMove(String fromXY, String toXY, String pattern) throws IOException {
+        BufferedImage field = ImageIO.read(mainField);
+        BufferedImage patternImg = null;
+        String[] to = toXY.split("_");
+        switch (pattern){
+            case "r":
+                patternImg = ImageIO.read(redCh);
+                break;
+            case "b":
+                patternImg = ImageIO.read(blueCh);
+                break;
+            case "bq":
+                patternImg = ImageIO.read(blueQCh);
+                break;
+            case "rq":
+                patternImg = ImageIO.read(redQCh);
+                break;
+            default:
+                break;
+        }
+        for (int i = 0; i < patternImg.getHeight(); i++) {
+            for (int j = 0; j < patternImg.getWidth(); j++) {
+                Color color = new Color(patternImg.getRGB(i,j));
+                field.setRGB(Integer.getInteger(to[0]) + i,Integer.getInteger(to[1]) + j, color.getRGB());
+            }
+        }
+        ImageIO.write(field, "png", mainField);
+        writeRemove(fromXY);
     }
 
 }

@@ -19,7 +19,6 @@ public class Play extends Command {
     @Override
     public void exec(Message message) {
         NewCheckersBoard checkersBoard = NewCheckersBoard.getCheckersBoard();
-
         try {
             messageSenderService.sendPhoto(message, checkersBoard.getBoard());
         } catch (ClientException e) {
