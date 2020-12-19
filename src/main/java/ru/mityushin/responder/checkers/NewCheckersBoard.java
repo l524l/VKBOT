@@ -134,17 +134,17 @@ public class NewCheckersBoard {
     }
 
     public void removeСheckers(String command) throws BadParameterDetected {
-        if (command.matches("[1-8][1-8]")
-                || command.matches("[1-8][1-8];[1-8][1-8]")
-                || command.matches("[1-8][1-8];[1-8][1-8];[1-8][1-8]")
-        ) {
+        if (command.matches("([1-8][1-8])(?:$|([;][1-8][1-8]))+")) {
             String[] removePositions = command.split(";");
             for (int i = 0; i < removePositions.length; i++) {
                 String position = removePositions[i];
                 int x = Character.getNumericValue(position.charAt(0)) - 1;
                 int y = Character.getNumericValue(position.charAt(1)) - 1;
                 String[] state = currentBoardState[y][x].split(":");
-
+                if(state.length < 2) {
+                    loadBackup();
+                    throw new BadParameterDetected("Один или несколько параметров ошибочны!");
+                }
                 if (state[1].equals("r")
                         || state[1].equals("b")
                         || state[1].equals("bq")
