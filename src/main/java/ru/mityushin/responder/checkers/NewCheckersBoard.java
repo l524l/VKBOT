@@ -29,7 +29,7 @@ public class NewCheckersBoard {
             {"64_192:r","w","192_192:r","w","320_192:r","w","448_192:r","w"},
             {"w","128_256:v","w","256_256:v","w","384_256:v","w","512_256:v"},
             {"64_320:v","w","192_320:v","w","320_320:v","w","448_320:v","w"},
-            {"w","128_384:b","w","256_384:b","w","348_384:b","w","512_384:b"},
+            {"w","128_384:b","w","256_384:b","w","384_384:b","w","512_384:b"},
             {"64_448:b","w","192_448:b","w","320_448:b","w","448_448:b","w"},
             {"w","128_512:b","w","256_512:b","w","348_512:b","w","512_512:b"},
     };
@@ -92,7 +92,7 @@ public class NewCheckersBoard {
                         currentBoardState[YTo][XTo] = to[0] + ":rq";
                     } else {
                         writeMove(from[0], to[0], from[1]);
-                        currentBoardState[YTo][XTo] = to[0] + ":" + to[1];
+                        currentBoardState[YTo][XTo] = to[0] + ":" + from[1];
                     }
                     currentBoardState[YFrom][XFrom] = from[0] + ":v";
                 } catch (IOException e) {
@@ -171,10 +171,10 @@ public class NewCheckersBoard {
         BufferedImage field = ImageIO.read(mainField);
         Color color = new Color(0,0,0);
         String[] to = XY.split("_");
+        int x = Integer.parseInt(to[0]);
+        int y = Integer.parseInt(to[1]);
         for (int i = 0; i < 64; i++) {
             for (int j = 0; j < 64; j++) {
-                int x = Integer.parseInt(to[0]);
-                int y = Integer.parseInt(to[1]);
                 field.setRGB(x + i,y + j, color.getRGB());
             }
         }
@@ -201,11 +201,11 @@ public class NewCheckersBoard {
             default:
                 break;
         }
+        int x = Integer.parseInt(to[0]);
+        int y = Integer.parseInt(to[1]);
         for (int i = 0; i < patternImg.getHeight(); i++) {
             for (int j = 0; j < patternImg.getWidth(); j++) {
                 Color color = new Color(patternImg.getRGB(i,j));
-                int x = Integer.parseInt(to[0]);
-                int y = Integer.parseInt(to[1]);
                 field.setRGB(x + i, y + j, color.getRGB());
             }
         }
