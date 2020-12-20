@@ -16,11 +16,15 @@ public class Help extends Command {
 
     @Override
     public void exec(Message message) {
-        String s = "Список команд:\n" +
-                ".move XYtoXY - перемещает шашку в соответствии с заданными координатами\n" +
-                ".reset - сбрасывает игру\n" +
-                ".remove XY - удаляет побитые шашки может принимать несколько пармаетров(Remove XY;XY;XY ...)\n" +
-                ".help - вызвать это меню";
+        String s = "Команда должна начинаться с одного из этих символов . ! \\ /" +
+                "Пример: .reset" +
+                "X - цифра от 1 до 8 по горизонтали" +
+                "Y - цифра от 1 до 8 по вертикали" +
+                "Список команд:\n" +
+                "move XYtoXY - перемещает шашку в соответствии с заданными координатами\n" +
+                "reset - сбрасывает игру\n" +
+                "remove XY - удаляет побитые шашки. Может принимать несколько параметров(Remove XY;XY;XY...)\n" +
+                "help - вызвать это меню";
         message.setText(s);
         try {
             messageSenderService.send(message);

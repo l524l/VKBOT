@@ -18,11 +18,11 @@ public class CommandManager {
     public CommandManager(VkMessageSenderService messageSenderService) {
         this.messageSenderService = messageSenderService;
         commands.add(new Unknown(messageSenderService,"unknown"));
-        commands.add(new Play(messageSenderService,".play"));
-        commands.add(new Move(messageSenderService,".move"));
-        commands.add(new Remove(messageSenderService,".remove"));
-        commands.add(new Reset(messageSenderService,".reset"));
-        commands.add(new Help(messageSenderService,".help"));
+        commands.add(new Play(messageSenderService,"play"));
+        commands.add(new Move(messageSenderService,"move"));
+        commands.add(new Remove(messageSenderService,"remove"));
+        commands.add(new Reset(messageSenderService,"reset"));
+        commands.add(new Help(messageSenderService,"help"));
     }
 
     public HashSet<Command> getCommands(){

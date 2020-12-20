@@ -3,7 +3,6 @@ package ru.mityushin.responder.commandsmodule;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.messages.Message;
-import ru.mityushin.responder.checkers.CheckersBoard;
 import ru.mityushin.responder.checkers.NewCheckersBoard;
 import ru.mityushin.responder.service.VkMessageSenderService;
 
