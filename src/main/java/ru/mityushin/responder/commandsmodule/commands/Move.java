@@ -1,4 +1,4 @@
-package ru.mityushin.responder.commandsmodule;
+package ru.mityushin.responder.commandsmodule.commands;
 
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;

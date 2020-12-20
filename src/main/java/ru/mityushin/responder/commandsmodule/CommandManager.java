@@ -2,13 +2,11 @@ package ru.mityushin.responder.commandsmodule;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.mityushin.responder.commandsmodule.commands.*;
 import ru.mityushin.responder.service.VkMessageSenderService;
 
 import java.util.HashSet;
 
-/**
- * @author Arthur Kupriyanov
- */
 @Component
 public class CommandManager {
     private HashSet<Command> commands = new HashSet<>();

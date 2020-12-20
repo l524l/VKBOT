@@ -21,7 +21,6 @@ public class NewCheckersBoard {
     private File redQCh;
     private File blueQCh;
 
-
     //формат x_y:ch где ch может быть b, bq, r, rq, v. w если поле белое;
     private final String[][] DEFAULT_BOARD_STATE= {
             {"64_64:r", "w","192_64:r", "w","320_64:r", "w","448_64:r", "w"},
@@ -212,5 +211,4 @@ public class NewCheckersBoard {
         ImageIO.write(field, "png", mainField);
         writeRemove(fromXY);
     }
-
 }

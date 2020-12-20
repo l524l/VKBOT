@@ -1,25 +1,23 @@
-package ru.mityushin.responder.commandsmodule;
+package ru.mityushin.responder.commandsmodule.commands;
+
 
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.messages.Message;
-import ru.mityushin.responder.checkers.NewCheckersBoard;
 import ru.mityushin.responder.service.VkMessageSenderService;
 
-/**
- * @author Arthur Kupriyanov
- */
-public class Play extends Command {
+public class Unknown extends Command {
 
-    public Play(VkMessageSenderService messageSenderService, String name) {
+    public Unknown(VkMessageSenderService messageSenderService, String name) {
         super(messageSenderService, name);
     }
 
     @Override
     public void exec(Message message) {
-        NewCheckersBoard checkersBoard = NewCheckersBoard.getCheckersBoard();
+        //new VKManager().sendMessage("Неизвестная команда", message.getUserId());
+        message.setText("Unknown command, bro!");
         try {
-            messageSenderService.sendPhoto(message, checkersBoard.getBoard());
+            messageSenderService.send(message);
         } catch (ClientException e) {
             e.printStackTrace();
         } catch (ApiException e) {

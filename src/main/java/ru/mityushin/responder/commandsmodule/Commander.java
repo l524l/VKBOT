@@ -8,10 +8,6 @@ import ru.mityushin.responder.exceptions.UnknownCommand;
 @Component
 public class Commander {
 
-    /**
-     * Обработка сообщений, получаемых через сервис Вконтакте. Имеет ряд дополнительной информации.
-     * @param message сообщение (запрос) пользователя
-     */
     private final CommandManager commander;
 
     @Autowired

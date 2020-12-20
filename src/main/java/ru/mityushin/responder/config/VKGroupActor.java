@@ -2,7 +2,6 @@ package ru.mityushin.responder.config;
 
 import com.vk.api.sdk.client.actors.GroupActor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,6 +11,12 @@ public class VKGroupActor {
     private String v;
     private String secret;
     private int groupid;
+    private String confirmation;
+
+    public GroupActor getGroupActor() {
+        GroupActor groupActor = new GroupActor(groupid, accesstoken);
+        return groupActor;
+    }
 
     public int getGroupid() {
         return groupid;
@@ -19,12 +24,6 @@ public class VKGroupActor {
 
     public void setGroupid(int groupid) {
         this.groupid = groupid;
-    }
-
-
-    public GroupActor getGroupActor() {
-        GroupActor groupActor = new GroupActor(groupid, accesstoken);
-        return groupActor;
     }
 
     public String getAccesstoken() {
@@ -58,7 +57,4 @@ public class VKGroupActor {
     public void setConfirmation(String confirmation) {
         this.confirmation = confirmation;
     }
-
-    private String confirmation;
-
 }

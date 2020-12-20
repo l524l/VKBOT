@@ -7,12 +7,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-/**
- * Exception handler for requests
- *
- * @author Dmitry Mityushin
- * @since 1.0
- */
 @ControllerAdvice
 public class CallbackResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
     private static final String DEFAULT_RESPONSE = "ok";

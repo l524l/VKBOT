@@ -1,21 +1,11 @@
 package ru.mityushin.responder.commandsmodule;
 
 import com.vk.api.sdk.objects.messages.Message;
-import ru.mityushin.responder.entity.MessageNewCallback;
+import ru.mityushin.responder.commandsmodule.commands.Command;
 import ru.mityushin.responder.exceptions.UnknownCommand;
-
 import java.util.Collection;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-/**
- * Определяет команду
- *
- * @author Артур Куприянов
- * @version 1.1.0
- */
 public class CommandDeterminant {
-
 
     public static Command getCommand(Collection<Command> commands, Message message) throws UnknownCommand {
         String body = message.getText();
