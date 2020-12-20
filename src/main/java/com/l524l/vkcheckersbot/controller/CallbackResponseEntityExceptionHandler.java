@@ -1,4 +1,4 @@
-package ru.mityushin.responder.controller;
+package com.l524l.vkcheckersbot.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

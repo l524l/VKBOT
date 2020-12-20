@@ -1,4 +1,4 @@
-package ru.mityushin.responder;
+package com.l524l.vkcheckersbot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

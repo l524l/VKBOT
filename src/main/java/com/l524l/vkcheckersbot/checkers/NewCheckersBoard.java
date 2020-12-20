@@ -1,8 +1,8 @@
-package ru.mityushin.responder.checkers;
+package com.l524l.vkcheckersbot.checkers;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.UrlResource;
-import ru.mityushin.responder.exceptions.BadParameterDetected;
+import com.l524l.vkcheckersbot.exceptions.BadParameterDetected;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
