@@ -1,5 +1,6 @@
-package ru.mityushin.responder.service;
+package com.l524l.vkcheckersbot.service;
 
+import com.l524l.vkcheckersbot.config.VKGroupActor;
 import com.vk.api.sdk.client.TransportClient;
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.exceptions.ApiException;
@@ -10,7 +11,6 @@ import com.vk.api.sdk.objects.photos.responses.GetMessagesUploadServerResponse;
 import com.vk.api.sdk.objects.photos.responses.MessageUploadResponse;
 import com.vk.api.sdk.objects.photos.responses.SaveMessagesPhotoResponse;
 import org.springframework.stereotype.Service;
-import ru.mityushin.responder.config.VKGroupActor;
 
 import java.io.File;
 import java.util.List;

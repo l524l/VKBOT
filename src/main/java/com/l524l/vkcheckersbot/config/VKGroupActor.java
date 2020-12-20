@@ -1,4 +1,4 @@
-package ru.mityushin.responder.config;
+package com.l524l.vkcheckersbot.config;
 
 import com.vk.api.sdk.client.actors.GroupActor;
 import org.springframework.boot.context.properties.ConfigurationProperties;

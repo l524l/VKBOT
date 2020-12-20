@@ -1,10 +1,10 @@
-package ru.mityushin.responder.commandsmodule.commands;
+package com.l524l.vkcheckersbot.commandsmodule.commands;
 
 
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.messages.Message;
-import ru.mityushin.responder.service.VkMessageSenderService;
+import com.l524l.vkcheckersbot.service.VkMessageSenderService;
 
 public class Unknown extends Command {
 

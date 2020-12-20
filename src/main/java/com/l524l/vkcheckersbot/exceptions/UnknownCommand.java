@@ -1,4 +1,4 @@
-package ru.mityushin.responder.exceptions;
+package com.l524l.vkcheckersbot.exceptions;
 
 public class UnknownCommand extends Exception {
     public UnknownCommand(){
