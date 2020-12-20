@@ -1,9 +1,7 @@
-package com.l524l.vkcheckersbot.controller;
+package ru.mityushin.responder.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.l524l.vkcheckersbot.config.VKGroupActor;
-import com.l524l.vkcheckersbot.service.CallbackApiHandler;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import ru.mityushin.responder.config.VKGroupActor;
+import ru.mityushin.responder.service.CallbackApiHandler;
 
 @Controller
 @RequestMapping(value = "/callbacks")

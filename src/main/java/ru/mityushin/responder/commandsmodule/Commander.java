@@ -1,9 +1,9 @@
-package com.l524l.vkcheckersbot.commandsmodule;
+package ru.mityushin.responder.commandsmodule;
 
 import com.vk.api.sdk.objects.messages.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.l524l.vkcheckersbot.exceptions.UnknownCommand;
+import ru.mityushin.responder.exceptions.UnknownCommand;
 
 @Component
 public class Commander {

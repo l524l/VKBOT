@@ -1,9 +1,9 @@
-package com.l524l.vkcheckersbot.commandsmodule;
+package ru.mityushin.responder.commandsmodule;
 
-import com.l524l.vkcheckersbot.commandsmodule.commands.*;
-import com.l524l.vkcheckersbot.service.VkMessageSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.mityushin.responder.commandsmodule.commands.*;
+import ru.mityushin.responder.service.VkMessageSenderService;
 
 import java.util.HashSet;
 

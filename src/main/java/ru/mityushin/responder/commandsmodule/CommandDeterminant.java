@@ -1,8 +1,8 @@
-package com.l524l.vkcheckersbot.commandsmodule;
+package ru.mityushin.responder.commandsmodule;
 
 import com.vk.api.sdk.objects.messages.Message;
-import com.l524l.vkcheckersbot.commandsmodule.commands.Command;
-import com.l524l.vkcheckersbot.exceptions.UnknownCommand;
+import ru.mityushin.responder.commandsmodule.commands.Command;
+import ru.mityushin.responder.exceptions.UnknownCommand;
 import java.util.Collection;
 
 public class CommandDeterminant {

@@ -1,11 +1,11 @@
-package com.l524l.vkcheckersbot.commandsmodule.commands;
+package ru.mityushin.responder.commandsmodule.commands;
 
-import com.l524l.vkcheckersbot.checkers.NewCheckersBoard;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.messages.Message;
-import com.l524l.vkcheckersbot.exceptions.BadParameterDetected;
-import com.l524l.vkcheckersbot.service.VkMessageSenderService;
+import ru.mityushin.responder.checkers.NewCheckersBoard;
+import ru.mityushin.responder.exceptions.BadParameterDetected;
+import ru.mityushin.responder.service.VkMessageSenderService;
 
 public class Move extends Command {
     public Move(VkMessageSenderService messageSenderService, String name) {

@@ -1,14 +1,14 @@
-package com.l524l.vkcheckersbot.service;
+package ru.mityushin.responder.service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.l524l.vkcheckersbot.config.VKGroupActor;
 import com.vk.api.sdk.callback.CallbackApi;
 import com.vk.api.sdk.objects.callback.ConfirmationMessage;
 import com.vk.api.sdk.objects.messages.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.l524l.vkcheckersbot.commandsmodule.Commander;
+import ru.mityushin.responder.commandsmodule.Commander;
+import ru.mityushin.responder.config.VKGroupActor;
 
 @Service
 public class CallbackApiHandler extends CallbackApi {
